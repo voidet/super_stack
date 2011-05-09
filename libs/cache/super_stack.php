@@ -52,7 +52,7 @@ class SuperStackEngine extends CacheEngine {
 
 		function clear($checkExpiry) {
 			foreach ($this->settings['stack'] as $engine => $stack) {
-				$data = Cache::clear($checkExpiry);
+				Cache::clear($checkExpiry, $engine);
 			}
 			return true;
 		}
