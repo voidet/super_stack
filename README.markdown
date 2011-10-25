@@ -16,14 +16,9 @@ Firstly clone the plugin into your plugins directory via:
 cd myapp/app/plugins/
 git clone http://github.com/voidet/super_stack.git super_stack
 
-In app/config/bootstrap.php place the following at the end of the file:
+In app/config/bootstrap.php define your cache settings/stacks for example:
 
-config('cache');
-
-Create a new file: app/config/cache.php
-
-In this file you define your cache settings/stacks for example:
-
+	CakePlugin::load('SuperStack');
 	Cache::config('teststack', array(
 		'engine' => 'SuperStack.SuperStack',
 		'stack' => array(
