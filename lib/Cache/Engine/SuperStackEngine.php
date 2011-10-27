@@ -10,7 +10,7 @@ class SuperStackEngine extends CacheEngine {
 		);
 
 		foreach ($settings['stack'] as $key => $stack) {
-			Cache::config($key, $stack);
+			Cache::config($this->key($key), $stack);
 		}
 
 		return true;
@@ -19,7 +19,7 @@ class SuperStackEngine extends CacheEngine {
 	public function write($key, $value, $duration) {
 		$setStack = false;
 		foreach ($this->settings['stack'] as $engine => $stack) {
-			$cacheWritten = Cache::write($key, $value, $engine);
+			$cacheWritten = Cache::write($this->key($key), $value, $engine);
 			if ($setStack === false && $cacheWritten === true) {
 				$setStack = true;
 			}
@@ -30,7 +30,7 @@ class SuperStackEngine extends CacheEngine {
 	public function read($key) {
 		$emptyEngines = array();
 		foreach ($this->settings['stack'] as $engine => $stack) {
-			$data = Cache::read($key, $engine);
+			$data = Cache::read($this->key($key), $engine);
 			if (!empty($data)) {
 				break;
 			} else {
@@ -40,18 +40,18 @@ class SuperStackEngine extends CacheEngine {
 
 		if (!empty($data) && !empty($emptyEngines)) {
 			foreach ($emptyEngines as $engine) {
-				Cache::write($key, $data, $engine);
+				Cache::write($this->key($key), $data, $engine);
 			}
 		}
 		return $data;
 	}
 
 	public function increment($key, $offset = 1) {
-		return parent::increment($key, $offset);
+		return parent::increment($this->key($key), $offset);
 	}
 
 	public function decrement($key, $offset = 1) {
-		return parent::increment($key, $offset);
+		return parent::increment($this->key($key), $offset);
 	}
 
 	public function gc() {
@@ -67,7 +67,7 @@ class SuperStackEngine extends CacheEngine {
 
 	public function delete($key) {
 		foreach ($this->settings['stack'] as $engine => $stack) {
-			Cache::delete($key, $engine);
+			Cache::delete($this->key($key), $engine);
 		}
 		return true;
 	}
