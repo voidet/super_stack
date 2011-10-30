@@ -72,4 +72,8 @@ class SuperStackEngine extends CacheEngine {
 		return true;
 	}
 
+	public function key($key) {
+		return $key;
+	}
+
 }
