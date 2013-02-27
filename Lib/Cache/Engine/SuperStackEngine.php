@@ -54,7 +54,7 @@ class SuperStackEngine extends CacheEngine {
 		return parent::increment($key, $offset);
 	}
 
-	public function gc() {
+	public function gc($expires = null) {
 		return $this->clear(true);
 	}
 
